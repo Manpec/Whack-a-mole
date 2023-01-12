@@ -1,0 +1,27 @@
+<h1>Whack-a-mole!!</h1>
+<div class="game-container">
+    <div>
+        <span class="description">Time remaining: {{timeLeft}} </span>
+        <span class="description">Points: {{score}}</span>
+    </div>
+
+
+<button type="button" class="btn btn-primary" (click)="startGame()" [disabled]="isStartBtnDisabled">Start Game!</button>
+</div>
+
+<div class="board-container">
+
+
+<div class="wrapper">
+
+    <div *ngFor="let hole of holes ">
+    
+        <div  [ngClass]="stateToClass(hole.moleState)">
+        <button class="transparent-button" (click)="hit(hole)"></button>
+
+       
+    </div>
+</div>
+    </div>
+</div>
+  <!-- stateToClass ändrar klassen på diven till någon av de tre olika statesen. Se funktion stateToClass och se respektive class i css -->

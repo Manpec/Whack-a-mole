@@ -1,0 +1,86 @@
+
+div{
+    padding:0
+}
+
+
+
+
+.game-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.game-container > div{
+    margin-right: 150px;
+    display: flex;
+    flex-direction: column;
+
+}
+.game-container > button{
+    margin-left: 250px;
+
+}
+
+.description{
+    font-weight: bold;
+    font-size: 24px;
+    font-style: italic;
+}
+h1{
+    text-align: center;
+    font-weight: 700;
+    font-style: italic;
+}
+
+.board-container{
+    display: flex;
+    justify-content: center;
+}
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(5, 150px);
+    grid-template-rows: repeat(5, 150px);
+    grid-auto-flow: column;
+  }
+  .transparent-button{
+   border: 0px;
+   background-color: transparent;
+   width: 150px;
+   height: 150px;
+  }
+  
+  
+  
+div.shown {
+    width: 150px;
+    height: 150px;
+    background: url("../../assets/878bfea109d601bf920e0cac1d167571.png");
+    border: 1px solid black;
+    background-size: cover;
+}
+div.hidden {
+  width: 150px;
+  height: 150px;
+    background-color: aqua;
+    border: 1px solid black;
+    background-size: cover;
+}
+
+div.smacked {
+    width: 150px;
+    height: 150px;
+    background: url("../../assets/publicdomainq-0036972yds.jpg");
+    background-size: cover;
+    border: 1px solid black;
+}
+
+.smacked-message {
+    display: none;
+    color: red;
+}
+
+.smacked-message.active {
+    display: block;
+}
