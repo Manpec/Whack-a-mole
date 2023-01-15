@@ -1,27 +1,47 @@
 <h1>Whack-a-mole!!</h1>
-<div class="game-container">
-    <div>
-        <span class="description">Time remaining: {{timeLeft}} </span>
-        <span class="description">Points: {{score}}</span>
+<ng-container *ngIf="isPlaying else Nameinput"> 
+    <ng-container *ngIf="!gameover else Finished"> 
+    <div class="game-container">
+        <div>
+            <span class="description">Time remaining: {{timeLeft}} </span>
+            <span class="description">Points: {{score}}</span>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="startGame()" [disabled]="isStartBtnDisabled">Start Game!</button>
     </div>
+    <div class="board-container">
+        <div class="wrapper">
 
+            <div *ngFor="let hole of holes ">
+                <div  [ngClass]="stateToClass(hole.moleState)">
+                    <button class="transparent-button" (click)="hit(hole)"></button>
+                </div>
+            </div>
 
-<button type="button" class="btn btn-primary" (click)="startGame()" [disabled]="isStartBtnDisabled">Start Game!</button>
-</div>
-
-<div class="board-container">
-
-
-<div class="wrapper">
-
-    <div *ngFor="let hole of holes ">
-    
-        <div  [ngClass]="stateToClass(hole.moleState)">
-        <button class="transparent-button" (click)="hit(hole)"></button>
-
-       
+        </div>
     </div>
-</div>
-    </div>
-</div>
-  <!-- stateToClass ändrar klassen på diven till någon av de tre olika statesen. Se funktion stateToClass och se respektive class i css -->
+</ng-container>
+</ng-container>
+    <ng-template #Finished>
+ 
+
+        <div class="finished">
+            <h1>Game finished!!</h1>
+            <p class="description">Your Points: {{score}} !!</p>
+            <p class="description">Fastest hit: {{fastestReaction}}ms !!</p>
+            <p>Do you want to see the <button routerLink="leaderboard">leader board</button> or <button (click)="playAgain()" >Play again</button> ?</p>
+            
+        </div>
+    </ng-template>
+
+<ng-template #Nameinput>
+    <form (ngSubmit)="onSubmit()" #addPlayerForm="ngForm">
+        <div class="form-group">
+            <p>Please enter your name before you start game</p>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username"class="form-control" 
+            [(ngModel)]="newPlayer.name" #username="ngModel" required>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!addPlayerForm.valid">Submit</button>
+    </form>
+</ng-template>
+<!-- stateToClass ändrar klassen på diven till någon av de tre olika statesen. Se funktion stateToClass och se respektive class i css -->

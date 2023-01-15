@@ -3,9 +3,6 @@ div{
     padding:0
 }
 
-
-
-
 .game-container{
     display: flex;
     justify-content: center;
@@ -16,13 +13,10 @@ div{
     margin-right: 150px;
     display: flex;
     flex-direction: column;
-
 }
 .game-container > button{
     margin-left: 250px;
-
 }
-
 .description{
     font-weight: bold;
     font-size: 24px;
@@ -33,7 +27,6 @@ h1{
     font-weight: 700;
     font-style: italic;
 }
-
 .board-container{
     display: flex;
     justify-content: center;
@@ -50,7 +43,7 @@ h1{
    width: 150px;
    height: 150px;
   }
-  
+
   
   
 div.shown {
@@ -76,11 +69,15 @@ div.smacked {
     border: 1px solid black;
 }
 
-.smacked-message {
-    display: none;
-    color: red;
-}
 
-.smacked-message.active {
-    display: block;
+
+.finished > p{
+    text-align: center;
+    font-size: 25px;
+    font-style: italic;
+}
+.finished > span {
+    text-align: center;
+    font-size: 25px;
+    font-style: italic;
 }
