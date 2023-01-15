@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Mole } from '../Mole';
 import { Observable }  from 'rxjs/internal/Observable';
 
 
+
+import { Mole } from '../Mole';
+import { Player } from '../Player';
 
 
 @Component({
@@ -16,13 +18,16 @@ export class BoardComponent implements OnInit{
   moleInterval: any; 
   gameInterval: any;  
   timeLeft: number = 10;
-  holeObserver: any;
-  holeObservable: any;
+   holeObserver: any;
+   holeObservable: any;
   score:number = 0;
   currentNumberOfMoles:number = 0;
   isStartBtnDisabled: boolean = false;
-  username:string = "";
-
+  isPlaying: boolean = false;// showgameboard
+  gameover: boolean = false;
+  newPlayer: Player = { name:'' };
+  fastestReaction: number = 0;
+  
 
   //constructor() { }
 
@@ -30,33 +35,40 @@ export class BoardComponent implements OnInit{
     /**
      * Create an observer to be passed to the new Hole
      */
-    this.holeObservable = new Observable(observer => {
+     this.holeObservable = new Observable(observer => {
         this.holeObserver = observer;
+       
+        
         console.log(this.holeObservable);//Observable
         console.log(this.holeObserver); //Subscriber 
         
         
         
       }
-    )
+    ) 
     /**
      * Subscribe to the observer created above to update the score
      */
     this.holeObservable.subscribe(() => {
         this.score++;
       }
-    )
+    ) 
 
     for(let i = 0; i<25; i++) { //make an instans:Hole 
       this.holes.push(new Mole(i, this.holeObserver))//作成されたオブザーバーを新しい穴に渡します
     console.log(this.holes);
-    console.log(i, this.holeObserver);
+   // console.log(i, this.holeObserver);
     
     }
 
  }
 
-
+ onSubmit(){
+  console.log('onSubmitBtn works');
+  console.log(`username from Form: ${this.newPlayer.name}`);
+  
+  this.isPlaying = true;
+ }
 
   startGame(){
     this.score = 0;
@@ -70,6 +82,7 @@ export class BoardComponent implements OnInit{
         this.holes[randomMole].show(); //use the random number as index of  holes array[] and pick up which mole is showing up
         this.currentNumberOfMoles++;
         console.log("current moles: ", this.currentNumberOfMoles)
+     
         setTimeout(() =>{
           this.holes[randomMole].hide();
           this.currentNumberOfMoles--;
@@ -83,43 +96,52 @@ export class BoardComponent implements OnInit{
       this.timeLeft -- //timeleft = timeleft -1
       if(this.timeLeft == 0) {
         this.stopGame(); 
+        this.gameover= true;
         //this.saveScore(); //för att använda DB!!!
       }
     }, 1000)
 
   }
 
+  fastestReactionTime(){
+    this.fastestReaction = this.holes[0].reactionTime;
+    for (let i = 1; i < this.holes.length; i++) {
+      console.log(this.holes[i].reactionTime)
+      if(this.fastestReaction>this.holes[i].reactionTime){
+        this.fastestReaction = this.holes[i].reactionTime
+      }
+    }
+  }
+
   stopGame() {
     clearInterval(this.moleInterval);
     clearInterval(this.gameInterval);
+   this.fastestReactionTime()
     this.isStartBtnDisabled = false;
     this.timeLeft = 60;
    for(let i = 0; i < this.holes.length; i++){
       this.holes[i].hide()
     }
-
-
-
   }
-
+  
+  playAgain() {
+    this.gameover = false;
+    this.isPlaying= true;
+  
+  }
   /* saveScore() {
     this.router.navigate(['/leaderboard', this.score])
   } */
 
-  resetGame() {
+ /*  resetGame() {
     this.stopGame();
     this.startGame();
   }
+ */
+  hit(hole: Mole) { // this function starts when (click)event //import Mole class
+    hole.smacked();
+   
 
-  hit(hole: Mole) { // this function starts when (click)event //import Hole class
-    const success = hole.smacked();
-    if(success) {
-  
-      
-      setTimeout(() => {
-        
-      }, 300);
-    }
   }
 
   stateToClass(state: number) {
@@ -130,7 +152,7 @@ export class BoardComponent implements OnInit{
       case 0: return "hidden";
       case 1: return "shown";
       case 2: return "smacked";
-      default: return
+      default: return ""
     }
 }
 
