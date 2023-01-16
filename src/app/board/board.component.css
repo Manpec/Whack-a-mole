@@ -2,7 +2,31 @@
 div{
     padding:0
 }
-
+form{
+    display: flex;
+    margin: 100px;
+    flex-direction: column; 
+    align-items: center;
+}
+.form-group{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+.form-group > p{
+    font-size: 24px;
+}
+.form-group> label{
+    font-size: 20px;
+}
+.form-group>input{
+    padding: 10;
+}
+.form-group > button{
+    margin: 20px;
+    max-width: 150px;
+    align-self: center;
+}   
 .game-container{
     display: flex;
     justify-content: center;
@@ -10,22 +34,34 @@ div{
     margin-bottom: 20px;
 }
 .game-container > div{
-    margin-right: 150px;
+    
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
-.game-container > button{
-    margin-left: 250px;
+.game-container > div :first-child{
+    margin-right: 30px;
+
 }
-.description{
+.game-container >div > button{
+    margin-left: 300px;
+}
+.description1{
     font-weight: bold;
-    font-size: 24px;
+    font-size: 20px;
     font-style: italic;
+    color: rgb(50, 78, 239);
+}
+.description2{
+    font-weight: bold;
+    font-size: 20px;
+    font-style: italic;
+    color: rgb(38, 154, 38);
 }
 h1{
     text-align: center;
     font-weight: 700;
     font-style: italic;
+    margin-top: 50px;
 }
 .board-container{
     display: flex;
@@ -43,9 +79,6 @@ h1{
    width: 150px;
    height: 150px;
   }
-
-  
-  
 div.shown {
     width: 150px;
     height: 150px;
@@ -56,11 +89,10 @@ div.shown {
 div.hidden {
   width: 150px;
   height: 150px;
-    background-color: aqua;
+    background-color:rgb(131, 67, 51);
     border: 1px solid black;
     background-size: cover;
 }
-
 div.smacked {
     width: 150px;
     height: 150px;
@@ -68,16 +100,20 @@ div.smacked {
     background-size: cover;
     border: 1px solid black;
 }
-
-
-
 .finished > p{
     text-align: center;
     font-size: 25px;
-    font-style: italic;
+    
 }
-.finished > span {
+.finished > div > button{
     text-align: center;
     font-size: 25px;
-    font-style: italic;
+    margin: 10px;
+}
+.finished {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

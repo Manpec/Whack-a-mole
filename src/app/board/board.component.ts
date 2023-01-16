@@ -25,7 +25,7 @@ export class BoardComponent implements OnInit{
   isStartBtnDisabled: boolean = false;
   isPlaying: boolean = false;// showgameboard
   gameover: boolean = false;
-  newPlayer: Player = { name:'' };
+  newPlayer: Player = { name:'' , score:0 };
 
   
 
@@ -58,7 +58,7 @@ export class BoardComponent implements OnInit{
  }
 
  onSubmit(){
-  this.isPlaying = true;
+    this.isPlaying = true;
  }
 
   startGame(){
