@@ -6,9 +6,10 @@ import { LeaderBoardService } from '../leader-board.service';
 @Component({
   selector: 'app-leader-board',
   template: `
+  <div class="container">
     <H1>Hiscore</H1>
     <table class="table table-borered">
-      <thead>
+      <thead >
         <tr>
           <th>Name</th>
           <th>Score</th>
@@ -21,7 +22,7 @@ import { LeaderBoardService } from '../leader-board.service';
         </tr>
       </tbody>
     </table>   
-    <h3>Honorable Reward-fastest reaction time</h3>
+    <h2>Honorable Reward-fastest reaction time</h2>
     <table class="table table-borered">
       <tbody>
         <tr>
@@ -32,8 +33,11 @@ import { LeaderBoardService } from '../leader-board.service';
     </table>
     <button type="button" class="btn btn-primary"
      (click)="onBtnClick()">Back to Game</button>
+</div>
   `,
-  styles: [
+  styles: [`
+.container{margin-top: 100px; max-width:700px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap:50px;} tr, td {font-size:20px;}
+  `
   ]
 })
 export class LeaderBoardComponent implements OnInit{
