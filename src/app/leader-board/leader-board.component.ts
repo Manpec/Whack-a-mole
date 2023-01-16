@@ -1,50 +1,52 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-//import { Player } from '../Player';
 import { LeaderBoardService } from '../leader-board.service';
 
 @Component({
   selector: 'app-leader-board',
   template: `
   <div class="container">
-    <H1>Hiscore</H1>
-    <table class="table table-borered">
-      <thead >
+    <H1>Top 10 Players</H1>
+    <table class="table">
+      <thead>
         <tr>
           <th>Name</th>
           <th>Score</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let player of this.topPlayers" > 
+        <tr *ngFor="let player of players" > 
           <td>{{ player.data.name }}</td>
-          <td>{{ player.data.score }}</td>
+          <td >{{ player.data.score }}</td>
         </tr>
-      </tbody>
-    </table>   
-    <h2>Honorable Reward-fastest reaction time</h2>
-    <table class="table table-borered">
-      <tbody>
+        </tbody>
+    <h3 class="header">Honorable Reward-fastest reaction time</h3>
+    <thead>
         <tr>
-          <td>{{ fastestPlayer?.data.name }}</td>
-          <td>{{ fastestPlayer?.data.fastestReaction }} ms</td>
+          <th>Name</th>
+          <th>Reaction</th>
         </tr>
-      </tbody>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ fastestPlayer?.name }}</td>
+        <td >{{ fastestPlayer?.fastestReaction }} ms</td>
+      </tr>
+    </tbody>
     </table>
     <button type="button" class="btn btn-primary"
      (click)="onBtnClick()">Back to Game</button>
 </div>
   `,
   styles: [`
-.container{margin-top: 100px; max-width:700px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap:50px;} tr, td {font-size:20px;}
+.container{margin-top: 100px; max-width:700px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap:50px;} tr, td {font-size:20px;} .header{text-align:center; margin-top:100px; margin-bottom:25px;}
   `
   ]
 })
 export class LeaderBoardComponent implements OnInit{
 
-  players: any[]; //den innehålla observable 
-  fastestPlayer: any;
-  topPlayers:any[]; 
+  players: any[]; // observable 
+  fastestPlayer: any; //observable
 
   
   constructor( private __router: Router,
@@ -58,24 +60,12 @@ export class LeaderBoardComponent implements OnInit{
   
   ngOnInit(): void {
     this.__leaderboardService.getPlayers().subscribe(data=>{
-      this.players = data
+      this.players = data;
+    }); 
 
-      this.players.sort((a,b) => b.data.score-a.data.score); //sort score
-      this.topPlayers = this.players.slice(0,10) //Top10 high-score
-      
-  
-        this.fastestPlayer = this.players[0];
-        for (let i = 1; i < this.players.length; i++) {
-          if (this.players[i].fastestReaction < this.fastestPlayer.fastestReaction) {
-            this.fastestPlayer = this.players[i];
-          }
-        } 
-        console.log(this.fastestPlayer.data);
-        console.log(this.fastestPlayer.data.name);
-        
-       
-        
-      }) 
+    this.__leaderboardService.getFastestReaction().subscribe(data=>{
+      this.fastestPlayer = data[0].data;
+    });  
     }
     
   }
