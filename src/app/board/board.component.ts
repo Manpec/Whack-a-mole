@@ -5,6 +5,7 @@ import { Observable }  from 'rxjs/internal/Observable';
 
 import { Mole } from '../Mole';
 import { Player } from '../Player';
+import { LeaderBoardService } from '../leader-board.service';
 
 
 @Component({
@@ -14,22 +15,21 @@ import { Player } from '../Player';
 })
 export class BoardComponent implements OnInit{
 
-  holes: Mole[] = [];
+  holes: Mole[] = []; 
   moleInterval: any; 
   gameInterval: any;  
   timeLeft: number = 10;
-   holeObserver: any;
-   holeObservable: any;
-  score:number = 0;
+  holeObserver: any;
+  holeObservable: any;
   currentNumberOfMoles:number = 0;
   isStartBtnDisabled: boolean = false;
   isPlaying: boolean = false;// showgameboard
   gameover: boolean = false;
   newPlayer: Player = { name:'' };
-  fastestReaction: number = 0;
+
   
 
-  //constructor() { }
+  constructor(private __leaderboardService: LeaderBoardService) { }
 
   ngOnInit(): void { 
     /**
@@ -38,19 +38,15 @@ export class BoardComponent implements OnInit{
      this.holeObservable = new Observable(observer => {
         this.holeObserver = observer;
        
-        
         console.log(this.holeObservable);//Observable
         console.log(this.holeObserver); //Subscriber 
-        
-        
-        
       }
     ) 
     /**
      * Subscribe to the observer created above to update the score
      */
     this.holeObservable.subscribe(() => {
-        this.score++;
+        this.newPlayer.score++;
       }
     ) 
 
@@ -58,20 +54,15 @@ export class BoardComponent implements OnInit{
       this.holes.push(new Mole(i, this.holeObserver))//作成されたオブザーバーを新しい穴に渡します
     console.log(this.holes);
    // console.log(i, this.holeObserver);
-    
     }
-
  }
 
  onSubmit(){
-  console.log('onSubmitBtn works');
-  console.log(`username from Form: ${this.newPlayer.name}`);
-  
   this.isPlaying = true;
  }
 
   startGame(){
-    this.score = 0;
+    this.newPlayer.score = 0;
     this.currentNumberOfMoles = 0;
     this.isStartBtnDisabled = true;
     this.moleInterval = setInterval(() => {
@@ -97,18 +88,18 @@ export class BoardComponent implements OnInit{
       if(this.timeLeft == 0) {
         this.stopGame(); 
         this.gameover= true;
-        //this.saveScore(); //för att använda DB!!!
+        this.saveScore(); //för att använda DB!!!
       }
     }, 1000)
 
   }
 
   fastestReactionTime(){
-    this.fastestReaction = this.holes[0].reactionTime;
+    this.newPlayer.fastestReaction = this.holes[0].reactionTime;
     for (let i = 1; i < this.holes.length; i++) {
       console.log(this.holes[i].reactionTime)
-      if(this.fastestReaction>this.holes[i].reactionTime){
-        this.fastestReaction = this.holes[i].reactionTime
+      if(this.newPlayer.fastestReaction > this.holes[i].reactionTime){
+        this.newPlayer.fastestReaction = this.holes[i].reactionTime;
       }
     }
   }
@@ -116,28 +107,24 @@ export class BoardComponent implements OnInit{
   stopGame() {
     clearInterval(this.moleInterval);
     clearInterval(this.gameInterval);
-   this.fastestReactionTime()
+    this.fastestReactionTime();
     this.isStartBtnDisabled = false;
     this.timeLeft = 60;
    for(let i = 0; i < this.holes.length; i++){
-      this.holes[i].hide()
+      this.holes[i].hide();
     }
   }
   
   playAgain() {
     this.gameover = false;
-    this.isPlaying= true;
-  
+    this.isPlaying = true;
   }
-  /* saveScore() {
-    this.router.navigate(['/leaderboard', this.score])
-  } */
 
- /*  resetGame() {
-    this.stopGame();
-    this.startGame();
-  }
- */
+  saveScore() {
+    this.__leaderboardService.postPlayerScore(this.newPlayer)
+  } 
+
+ 
   hit(hole: Mole) { // this function starts when (click)event //import Mole class
     hole.smacked();
    
