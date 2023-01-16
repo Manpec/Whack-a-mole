@@ -25,7 +25,7 @@ export class Mole {
          if(this.moleState === 0) { //When mole is hide empty , mole comes out
              this.moleState = 1;
              this.intervalId = setInterval(()=>{
-                this.ms++
+                this.ms+=10
              },10)
               console.log(`NO.${this.holeNumber} hole, after state: ${this.moleState}`);
              return true;
@@ -44,8 +44,8 @@ export class Mole {
      //smacked メソッドはモグラの状態を「ヒット」に変更してオブザーバーに通知し
      smacked() { //vid hit()
         if(this.moleState === 1) {
-            clearInterval(this.intervalId)
-            this.checkReactionTime()
+            clearInterval(this.intervalId);
+            this.checkReactionTime();
             this.ms = 0;
             this.moleState = 2;//when mole  comes out, hit mole
             console.log("hit ", this.moleState);

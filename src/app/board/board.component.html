@@ -4,7 +4,7 @@
     <div class="game-container">
         <div>
             <span class="description">Time remaining: {{timeLeft}} </span>
-            <span class="description">Points: {{score}}</span>
+            <span class="description">Points: {{newPlayer.score}}</span>
         </div>
         <button type="button" class="btn btn-primary" (click)="startGame()" [disabled]="isStartBtnDisabled">Start Game!</button>
     </div>
@@ -26,8 +26,8 @@
 
         <div class="finished">
             <h1>Game finished!!</h1>
-            <p class="description">Your Points: {{score}} !!</p>
-            <p class="description">Fastest hit: {{fastestReaction}}ms !!</p>
+            <p class="description">Your Points: {{newPlayer.score}} !!</p>
+            <p class="description">Fastest hit: {{newPlayer.fastestReaction}}ms !!</p>
             <p>Do you want to see the <button routerLink="leaderboard">leader board</button> or <button (click)="playAgain()" >Play again</button> ?</p>
             
         </div>
