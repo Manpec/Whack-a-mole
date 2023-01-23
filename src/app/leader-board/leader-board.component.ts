@@ -6,7 +6,7 @@ import { LeaderBoardService } from '../leader-board.service';
   selector: 'app-leader-board',
   template: `
   <div class="container">
-    <H1>Top 10 Players</H1>
+    <h1>Top 10 Players</h1>
     <table class="table">
       <thead>
         <tr>
@@ -50,7 +50,7 @@ export class LeaderBoardComponent implements OnInit{
 
   
   constructor( private __router: Router,
-               public __leaderboardService: LeaderBoardService,
+               public __leaderboardService: LeaderBoardService
                ){}
 
   onBtnClick(){
