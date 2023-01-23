@@ -79,21 +79,21 @@ h1{
    width: 150px;
    height: 150px;
   }
-div.shown {
+.shown {
     width: 150px;
     height: 150px;
     background: url("../../assets/878bfea109d601bf920e0cac1d167571.png");
     border: 1px solid black;
     background-size: cover;
 }
-div.hidden {
+.hidden {
   width: 150px;
   height: 150px;
     background-color:rgb(131, 67, 51);
     border: 1px solid black;
     background-size: cover;
 }
-div.smacked {
+.smacked {
     width: 150px;
     height: 150px;
     background: url("../../assets/publicdomainq-0036972yds.jpg");

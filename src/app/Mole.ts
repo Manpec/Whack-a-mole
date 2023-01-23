@@ -1,78 +1,72 @@
 export class Mole {
 
-    //moleState
-     //0: hide empty
-     //1: out  finns mole i hålet
-     //2: hit
- 
-     moleState: number
-     holeNumber: number
-     reactionTime: number
-     ms: number
-     intervalId: any
+     moleState: number;
+     holeNumber: number;
+     reactionTime: number;
+     ms: number;
+     intervalId: any;
     
 
-     constructor(public num: number, public observer: any) {//constructor:インスタンス化をすれば必ず実行されるメソッド 初期化メソッド
-         this.moleState = 0; //num => 0を代入　それをmoleState にする= hide 
+     constructor(public num: number, public observer: any) {
+         this.moleState = 0; //moles are hiding in the beginning of the game
          this.holeNumber = num;
-         this.reactionTime = 4000;//4000miliseconds default. Kan inte bli högre än det
+         this.reactionTime = 4000;//4000 miliseconds as default. Can not be higter than that
          this.ms = 0;
      }
+
+     /**
+      * Use a switch statement in stateToClass metod to determine which class to return based on the value of the status.
+      * 
+      case 0: return "hidden"
+      case 1: return "shown"
+      case 2: return "smacked" 
+      */
  
      show() { //vid start()
-         // If the mole is already out, 
-          console.log(`in hole class: NO.${this.holeNumber} hole, before state: ${this.moleState}`);
-         if(this.moleState === 0) { //When mole is hide empty , mole comes out
-             this.moleState = 1;
-             this.intervalId = setInterval(()=>{
-                this.ms+=10
-             },10)
-              console.log(`NO.${this.holeNumber} hole, after state: ${this.moleState}`);
-             return true;
-         }   else {
-             return false;
-         }
-     }
-
-     checkReactionTime(){
-        if(this.ms > 0 && this.reactionTime > this.ms){
-            this.reactionTime = this.ms
-            console.log("miliseconds:" ,this.reactionTime)
+        if(this.moleState === 0) { //If mole is empty(hidden), mole comes out
+            this.moleState = 1;
+            this.intervalId = setInterval(()=>{
+                this.ms+=10;
+            },10);
         }
-     }
-     
-     //smacked メソッドはモグラの状態を「ヒット」に変更してオブザーバーに通知し
-     smacked() { //vid hit()
-        if(this.moleState === 1) {
+    }
+
+    smacked() { //vid hit()
+        if(this.moleState === 1) { //If mole is busy(shown) 
             clearInterval(this.intervalId);
             this.checkReactionTime();
             this.ms = 0;
-            this.moleState = 2;//when mole  comes out, hit mole
-            console.log("hit ", this.moleState);
+            this.moleState = 2; //If mole is busy(shown), smack mole
+           // console.log("hit ", this.moleState);
 
-            this.observer.next(); //For counter ++
+            this.observer.next(); //score++ by notifying the observer that is listening to score (subscriber)
             
-             setTimeout(() => {
-                 this.moleState = 0
-             }, 1000)
-             return true;
-         }   else    {
-             return false;
-         }
-     }
+            setTimeout(() => { 
+                this.moleState = 0 //hide the mole after 1 second
+            }, 1000);
+        }
+    }
+    
+    hide() {
+        if(this.moleState === 1) { //If mole is busy(shown) 
+            this.moleState = 0;   //hide the moles
+            clearInterval(this.intervalId);
+            this.checkReactionTime();
+            this.ms=0;
+        }
+    }
+    
+    /**
+     * If the latest ms is faster than this.reactionTime then the ms becomes this.reactionTime for this hole. Every hole has this function running 
+     */
+    checkReactionTime(){
+       if(this.ms > 0 && this.reactionTime > this.ms){
+           this.reactionTime = this.ms
+       }
+    }
+     
+  
  
-     hide() {
-         if(this.moleState === 1) {
-             this.moleState = 0;
-             clearInterval(this.intervalId);
-             this.checkReactionTime();
-             this.ms=0;
-         }
-     }
- 
-     isShown() {
-         return this.moleState;
-     }
- 
- }
+
+}
  
