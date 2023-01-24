@@ -16,7 +16,7 @@ export class BoardComponent implements OnInit{
   holes: Mole[] = []; 
   moleInterval: any; 
   gameInterval: any;  
-  timeLeft: number = 20;
+  timeLeft: number = 60;
   holeObserver: any;
   holeObservable: any;
   currentNumberOfMoles:number = 0;
@@ -40,7 +40,7 @@ export class BoardComponent implements OnInit{
     /**
      * Subscribe to the observer created above to update the score
      */
-    this.holeObservable.subscribe(() => {//lyssnar
+    this.holeObservable.subscribe(() => {
         this.newPlayer.score++;
       }
     ) 
@@ -61,12 +61,12 @@ export class BoardComponent implements OnInit{
     this.currentNumberOfMoles = 0;
     this.isStartBtnDisabled = true;
     this.moleInterval = setInterval(() => {
-      if(this.currentNumberOfMoles < 3){// max three moles show on screen
+        if(this.currentNumberOfMoles < 3){// max three moles show on screen
       
         let randomMole = Math.floor(Math.random() * 25); //generate random number between 0-24
         
-        this.holes[randomMole].show(); //use the random number as index of the "holes" array and pick up which mole is showing up
         this.currentNumberOfMoles++;
+        this.holes[randomMole].show(); //use the random number as index of the "holes" array and pick up which mole is showing up
 
         setTimeout(() =>{//the mole appears 4 seconds
           this.holes[randomMole].hide();
@@ -94,7 +94,7 @@ export class BoardComponent implements OnInit{
     this.isStartBtnDisabled = false;
     this.timeLeft = 60;      //Reset timer 
     for(let i = 0; i < this.holes.length; i++){ 
-      this.holes[i].hide();//All moles are hidden
+      this.holes[i].hide();  //All moles are hidden
     }
   }
   
@@ -124,15 +124,15 @@ export class BoardComponent implements OnInit{
   /**
    * linked to click event in the template
    */
-  hit(hole: Mole){ 
+  smack(hole: Mole){ 
     hole.smacked(); //smacked()function in Mole class
   }
 
   /**
    * linked to [ngClass]directiv in the template
-   * stateToClass metod changes the class of the div to one of the three different states. 
+   * moleStateChangeCssClass metod changes the class of the div to one of the three different states. 
    */
-  stateToClass(state: number) {
+  moleStateChangeCssClass(state: number) {
     switch(state) {
       /**
        *  Look the respective class in css

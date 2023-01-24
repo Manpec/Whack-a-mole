@@ -5,6 +5,8 @@ export class Mole {
      reactionTime: number;
      ms: number;
      intervalId: any;
+     scoreObserver:any;
+     
     
 
      constructor(public num: number, public observer: any) {
@@ -12,37 +14,35 @@ export class Mole {
          this.holeNumber = num;
          this.reactionTime = 4000;//4000 miliseconds as default. Can not be higter than that
          this.ms = 0;
+         this.scoreObserver = observer;
+        
      }
 
      /**
-      * Use a switch statement in stateToClass metod to determine which class to return based on the value of the status.
-      * 
-      case 0: return "hidden"
-      case 1: return "shown"
-      case 2: return "smacked" 
+      * Use a switch statement in "moleStateChangeCssClass" metod to determine which CSS class to return based on the value of the status.
       */
  
-     show() { //vid start()
+     show() { //shows the moles after the game starts randomly
         if(this.moleState === 0) { //If mole is empty(hidden), mole comes out
-            this.moleState = 1;
+        this.moleState = 1; //css class becomes shown
             this.intervalId = setInterval(()=>{
                 this.ms+=10;
             },10);
         }
     }
 
-    smacked() { //vid hit()
-        if(this.moleState === 1) { //If mole is busy(shown) 
+    smacked() { //on smack()
+        if(this.moleState === 1) { //If mole is shown 
             clearInterval(this.intervalId);
             this.checkReactionTime();
             this.ms = 0;
-            this.moleState = 2; //If mole is busy(shown), smack mole
-           // console.log("hit ", this.moleState);
+            this.moleState = 2; //molestate becomes smacked and css class changes, 
+         
 
-            this.observer.next(); //score++ by notifying the observer that is listening to score (subscriber)
+            this.scoreObserver.next(); //score++ by notifying the observer that is listening to score (subscriber)
             
             setTimeout(() => { 
-                this.moleState = 0 //hide the mole after 1 second
+                this.moleState = 0 //hide the mole after 1 second and css class becomes hidden
             }, 1000);
         }
     }

@@ -45,19 +45,21 @@ import { LeaderBoardService } from '../leader-board.service';
 })
 export class LeaderBoardComponent implements OnInit{
 
-  players: any[]; // observable 
-  fastestPlayer: any; //observable
+  players: any[]; 
+  fastestPlayer: any; 
 
   
   constructor( private __router: Router,
-               public __leaderboardService: LeaderBoardService
+               private __leaderboardService: LeaderBoardService
                ){}
 
   onBtnClick(){
     this.__router.navigate(['']); //Back to Game
   }
 
-  
+  /**
+   * Retrieve player data from a database using LearderBoard-service.
+   */
   ngOnInit(): void {
     this.__leaderboardService.getPlayers().subscribe(data=>{
       this.players = data;
