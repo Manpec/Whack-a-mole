@@ -1,6 +1,6 @@
 <ng-container *ngIf="isPlaying else Nameinput"> 
     <ng-container *ngIf="!gameover else Finished"> 
-        <h1 class="main-h1">Whack-a-mole!!</h1>
+        <h1 class="main-h1">Whack-a-mole! (FEU22, Mana Pecar)</h1>
         <div class="game-container">
             <div>
                 <span class="description1">Time remaining: {{timeLeft}} </span>
@@ -13,8 +13,8 @@
         <div class="board-container">
             <div class="wrapper">
                 <div *ngFor="let hole of holes ">
-                    <div  [ngClass]="stateToClass(hole.moleState)">
-                        <button class="transparent-button" (click)="hit(hole)"></button>
+                    <div  [ngClass]="moleStateChangeCssClass(hole.moleState)">
+                        <button class="transparent-button" (click)="smack(hole)"></button>
                     </div>
                 </div>
             </div>
